@@ -2,14 +2,12 @@ package com.marko.cryptofunctional.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import arrow.core.fix
-import arrow.effects.unsafeRunAsync
 import com.marko.cryptofunctional.base.BaseViewModel
+import com.marko.cryptofunctional.data.CoinsService
 import com.marko.cryptofunctional.dispatchers.CoroutineDispatchers
-import com.marko.cryptofunctional.domain.CoinUseCases
 import com.marko.cryptofunctional.entities.Coin
 import com.marko.cryptofunctional.event.Event
-import com.marko.cryptofunctional.injection.CoinsContext
+import com.marko.cryptofunctional.usecases.FetchCoins
 import javax.inject.Inject
 
 /**
@@ -18,7 +16,8 @@ import javax.inject.Inject
  * @param dispatchers [CoroutineDispatchers] abstraction
  */
 class CoinsViewModel @Inject constructor(
-	dispatchers: CoroutineDispatchers
+	dispatchers: CoroutineDispatchers,
+	private val coinsService: CoinsService
 ) : BaseViewModel(dispatchers) {
 
 	/**
@@ -45,10 +44,13 @@ class CoinsViewModel @Inject constructor(
 	/**
 	 * Start fetching flow
 	 */
-	fun fetch(coinsContext: CoinsContext = this.coinsContext) {
+	fun fetch() {
 		_loading.value = Event(true)
-		CoinUseCases.fetchCoins().run(coinsContext).fix().value.unsafeRunAsync {
-			_loading.value = Event(false)
+		FetchCoins(
+			context = coroutineContext,
+			service = coinsService
+		) {
+			_loading.postValue(Event(false))
 			it.fold(_error::postValue, _coins::postValue)
 		}
 	}

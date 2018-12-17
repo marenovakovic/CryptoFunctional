@@ -14,6 +14,7 @@ import com.marko.cryptofunctional.extensions.startActivity
 import com.marko.cryptofunctional.extensions.toastShort
 import com.marko.cryptofunctional.injection.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -51,5 +52,5 @@ class MainActivity : BaseActivity() {
 		coinsAdapter.coins = coins
 	}
 
-	private fun showError(throwable: Throwable) = toastShort(throwable.message)
+	private fun showError(throwable: Throwable) = Timber.e(throwable)
 }

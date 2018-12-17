@@ -10,7 +10,6 @@ import com.marko.cryptofunctional.entities.CoinsResponse
 import com.marko.cryptofunctional.factory.CoinsFactory
 import com.marko.cryptofunctional.home.CoinsViewModel
 import com.marko.cryptofunctional.injection.CoinsContext
-import com.marko.cryptofunctional.event.Event
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -28,29 +27,15 @@ internal class CoinsViewModelTest : ScopedTest() {
 
 	private val dispatchers = TestCoroutineDispatchers()
 
-	private val viewModel = CoinsViewModel(dispatchers)
+	private val viewModel = CoinsViewModel(dispatchers, mockk())
 
 	private val coinsContext = CoinsContext(mockk(), mockk())
-
-	@Test
-	fun `does fetching beings with loading event`() {
-		val coins = CoinsFactory.coins
-		stubContext(coinsContext, coins)
-		viewModel.fetch(coinsContext)
-
-		val observer = mockObserver<Event<Boolean>>()
-		stubOnChange(observer)
-
-		viewModel.loading.observeForever(observer)
-
-		verify { observer.onChanged(Event(true)) }
-	}
 
 	@Test
 	fun `check success case`() {
 		val coins = CoinsFactory.coins
 		stubContext(coinsContext, coins)
-		viewModel.fetch(coinsContext)
+		viewModel.fetch()
 
 		val observer = mockObserver<List<Coin>>()
 		stubOnChange(observer)
@@ -64,7 +49,7 @@ internal class CoinsViewModelTest : ScopedTest() {
 	fun `check error case`() {
 		val exception = IllegalAccessException("jeb' se")
 		stubException(coinsContext, exception)
-		viewModel.fetch(coinsContext)
+		viewModel.fetch()
 
 		val observer = mockObserver<Throwable>()
 		stubOnChange(observer)

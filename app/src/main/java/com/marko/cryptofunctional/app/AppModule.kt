@@ -1,6 +1,8 @@
 package com.marko.cryptofunctional.app
 
 import android.content.Context
+import com.marko.cryptofunctional.data.CoinsService
+import com.marko.cryptofunctional.data.coinsService
 import com.marko.cryptofunctional.dispatchers.CoroutineDispatchers
 import com.marko.cryptofunctional.dispatchers.CoroutineDispatchersImpl
 import dagger.Binds
@@ -21,4 +23,8 @@ class AppModule(private val context: Context) {
 
 	@Provides
 	fun provideContext(): Context = context
+
+	@Singleton
+	@Provides
+	fun provideCoinsService(): CoinsService = coinsService
 }

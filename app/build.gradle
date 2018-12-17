@@ -105,11 +105,11 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
-//    implementation project(path: ':domain')
-
     // Testing
     testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
     testImplementation "junit:junit:$jUnitVersion"
+    testImplementation "io.kotlintest:kotlintest-runner-junit5:$kotlinTestVersion"
+    testImplementation "io.kotlintest:kotlintest-assertions-arrow:$kotlinTestVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-api:$jUnit5Version"
     testImplementation "io.mockk:mockk:$mockkVersion"
     androidTestImplementation "io.mockk:mockk-android:$mockkVersion"

@@ -61,7 +61,7 @@ internal class FetchCoinsUseCaseTest : ScopedTest() {
 	private fun stubCoins(coins: List<Coin>) {
 		val response = CoinsResponse(coins = coins, metadata = CoinsMetadata())
 
-		every { coinsService.getCoins() } returns CompletableDeferred(response)
+//		every { coinsService.getCoins() } returns CompletableDeferred(response)
 	}
 
 	private fun stubException(exception: Exception) {

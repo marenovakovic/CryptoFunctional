@@ -37,6 +37,4 @@ object CoinResponseDeserializer : JsonDeserializer<CoinResponse> {
 
 		return CoinResponse(coin = coin, status = status)
 	}
-
-
 }
