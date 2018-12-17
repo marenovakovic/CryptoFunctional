@@ -38,8 +38,7 @@ interface FetchCoins {
 
 				override val service: CoinsService
 					get() = service
-			}
-				.fetchCoins().fix().unsafeRunAsync(callback)
+			}.fetchCoins().fix().unsafeRunAsync(callback)
 		}
 	}
 }

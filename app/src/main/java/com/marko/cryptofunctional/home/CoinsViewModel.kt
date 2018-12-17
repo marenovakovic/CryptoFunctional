@@ -11,9 +11,11 @@ import com.marko.cryptofunctional.usecases.FetchCoins
 import javax.inject.Inject
 
 /**
- * [ViewModel] class for fetching [Coin]s
+ * [ViewModel] for fetching [Coin] [List]
  *
  * @param dispatchers [CoroutineDispatchers] abstraction
+ *
+ * @param coinsService [CoinsService] for interacting with API
  */
 class CoinsViewModel @Inject constructor(
 	dispatchers: CoroutineDispatchers,

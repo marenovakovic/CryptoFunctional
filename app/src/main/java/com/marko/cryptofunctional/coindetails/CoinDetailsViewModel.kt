@@ -15,11 +15,20 @@ import javax.inject.Inject
  * [ViewModel] for fetching [Coin] details
  *
  * @param dispatchers [CoroutineDispatchers] abstraction
+ *
+ * @param coinsService [CoinsService] for interacting with API
  */
 class CoinDetailsViewModel @Inject constructor(
 	dispatchers: CoroutineDispatchers,
 	private val coinsService: CoinsService
 ) : BaseViewModel(dispatchers) {
+
+	/**
+	 * [MutableLiveData] holding [Event] signaling should loading be shown or hidden, exposed as [LiveData]
+	 */
+	private val _loading = MutableLiveData<Event<Boolean>>()
+	val loading: LiveData<Event<Boolean>>
+		get() = _loading
 
 	/**
 	 * [MutableLiveData] holding [Coin], exposed as [LiveData]
@@ -34,13 +43,6 @@ class CoinDetailsViewModel @Inject constructor(
 	private val _error = MutableLiveData<Throwable>()
 	val error: LiveData<Throwable>
 		get() = _error
-
-	/**
-	 * [MutableLiveData] holding [Event] signaling should loading be shown or hidden, exposed as [LiveData]
-	 */
-	private val _loading = MutableLiveData<Event<Boolean>>()
-	val loading: LiveData<Event<Boolean>>
-		get() = _loading
 
 	/**
 	 * Start fetching flow

@@ -1,70 +1,60 @@
 package com.marko.cryptofunctional.domain
 
-import arrow.core.fix
-import arrow.effects.unsafeRunAsync
-import arrow.effects.unsafeRunSync
-import com.marko.cryptofunctional.ScopedTest
 import com.marko.cryptofunctional.data.CoinsService
 import com.marko.cryptofunctional.entities.Coin
 import com.marko.cryptofunctional.entities.CoinsMetadata
 import com.marko.cryptofunctional.entities.CoinsResponse
-import com.marko.cryptofunctional.injection.CoinsContext
+import com.marko.cryptofunctional.factory.CoinsFactory
+import com.marko.cryptofunctional.usecases.FetchCoins
+import io.kotlintest.assertions.arrow.either.shouldBeRight
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.StringSpec
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.CompletableDeferred
-import org.junit.jupiter.api.Test
+import kotlinx.coroutines.Dispatchers
 
-internal class FetchCoinsUseCaseTest : ScopedTest() {
+internal class FetchCoinsUseCaseTest : StringSpec() {
 
-	private val coinsService = mockk<CoinsService>()
-	private val testContext = CoinsContext(scope = this, coinsService = coinsService)
+	init {
 
-	@Test
-	fun `does fetchCoinsUseCase runs without error`() {
-		val coins = listOf<Coin>()
-		stubCoins(coins)
+		"test FetchCoinsUseCase success case" {
+			val coinsService = mockk<CoinsService>()
 
-		CoinUseCases.fetchCoins().run(testContext).fix().value.unsafeRunSync()
-	}
+			val coins = CoinsFactory.coins
+			coinsService.stubCoins(coins)
 
-	@Test
-	fun `is service called when fetchCoinsUseCase is executed`() {
-		val coins = listOf<Coin>()
-		stubCoins(coins)
+			FetchCoins(
+				context = Dispatchers.Unconfined,
+				service = coinsService
+			) {
+				it.shouldBeRight(coins)
+			}
+		}
 
-		CoinUseCases.fetchCoins().run(testContext).fix().value.unsafeRunSync()
+		"test FetchCoinsUseCase failure case" {
+			val coinsService = mockk<CoinsService>()
 
-		verify(exactly = 1) { coinsService.getCoins() }
-	}
+			val throwable = Throwable("jeb' se")
+			coinsService.stubThrow(throwable)
 
-	@Test
-	fun `check fetchCoinsUseCase result`() {
-		val coins = listOf<Coin>()
-		stubCoins(coins)
-
-		val result = CoinUseCases.fetchCoins().run(testContext).fix().value.unsafeRunSync()
-
-		result == coins
-	}
-
-	@Test
-	fun `check error case`() {
-		val exception = Exception("jeb' se")
-		stubException(exception)
-
-		CoinUseCases.fetchCoins().run(testContext).fix().value.unsafeRunAsync {
-			it.fold({ assert(it != exception.cause) }, {})
+			FetchCoins(
+				context = Dispatchers.Unconfined,
+				service = coinsService
+			) {
+				it.shouldBeRight()
+				5 shouldBe 4
+			}
 		}
 	}
 
-	private fun stubCoins(coins: List<Coin>) {
+	private fun CoinsService.stubCoins(coins: List<Coin>) {
 		val response = CoinsResponse(coins = coins, metadata = CoinsMetadata())
 
-//		every { coinsService.getCoins() } returns CompletableDeferred(response)
+		every { getCoins() } returns CompletableDeferred(response)
 	}
 
-	private fun stubException(exception: Exception) {
-		every { coinsService.getCoins() } throws exception
+	private fun CoinsService.stubThrow(throwable: Throwable) {
+		every { getCoins() } throws throwable
 	}
 }
