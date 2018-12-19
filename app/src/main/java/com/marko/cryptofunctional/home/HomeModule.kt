@@ -2,8 +2,9 @@ package com.marko.cryptofunctional.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.marko.cryptofunctional.injection.viewmodel.ViewModelFactory
-import com.marko.cryptofunctional.injection.viewmodel.ViewModelKey
+import com.marko.presentation.coins.CoinsViewModel
+import com.marko.presentation.injection.ViewModelFactory
+import com.marko.presentation.injection.ViewModelKey
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

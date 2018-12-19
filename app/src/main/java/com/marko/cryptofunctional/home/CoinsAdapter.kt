@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.marko.cryptofunctional.R
-import com.marko.cryptofunctional.entities.Coin
-import com.marko.cryptofunctional.entities.CoinId
 import com.marko.cryptofunctional.extensions.inflate
+import com.marko.domain.entities.CoinId
+import com.marko.presentation.entities.Coin
 import kotlinx.android.synthetic.main.list_item_coin.view.*
 
 class CoinsAdapter(

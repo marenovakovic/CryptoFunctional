@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.marko.cryptofunctional.R
 import com.marko.cryptofunctional.base.BaseActivity
-import com.marko.cryptofunctional.coindetails.CoinDetailsActivity
-import com.marko.cryptofunctional.entities.Coin
-import com.marko.cryptofunctional.event.EventObserver
 import com.marko.cryptofunctional.extensions.beVisibleIf
 import com.marko.cryptofunctional.extensions.observeNonNull
-import com.marko.cryptofunctional.extensions.startActivity
-import com.marko.cryptofunctional.extensions.toastShort
-import com.marko.cryptofunctional.injection.viewmodel.ViewModelFactory
+import com.marko.presentation.coins.CoinsViewModel
+import com.marko.presentation.entities.Coin
+import com.marko.presentation.event.EventObserver
+import com.marko.presentation.injection.ViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -30,7 +28,7 @@ class MainActivity : BaseActivity() {
 	}
 
 	private val coinsAdapter: CoinsAdapter by lazy(LazyThreadSafetyMode.NONE) {
-		CoinsAdapter { startActivity<CoinDetailsActivity>(CoinDetailsActivity.EXTRA_COIN_ID to it) }
+		CoinsAdapter { /*startActivity<CoinDetailsActivity>(CoinDetailsActivity.EXTRA_COIN_ID to it)*/ }
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
