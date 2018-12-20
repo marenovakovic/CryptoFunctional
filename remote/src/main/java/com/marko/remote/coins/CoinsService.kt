@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.marko.domain.entities.CoinId
 import com.marko.remote.entities.CoinResponse
 import com.marko.remote.entities.CoinsResponse
+import com.marko.remote.gson.CoinResponseDeserializer
 import com.marko.remote.gson.CoinsResponseDeserializer
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
@@ -71,6 +72,7 @@ private val okHttpClient = OkHttpClient.Builder()
  */
 private val gson = GsonBuilder()
 	.registerTypeAdapter(CoinsResponse::class.java, CoinsResponseDeserializer)
+	.registerTypeAdapter(CoinResponse::class.java, CoinResponseDeserializer)
 	.create()
 
 /**

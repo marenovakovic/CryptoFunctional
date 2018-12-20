@@ -1,6 +1,7 @@
 package com.marko.data.coins
 
 import arrow.Kind
+import arrow.typeclasses.bindingCatch
 import com.marko.cache.coins.CoinsCacheSource
 import com.marko.domain.entities.CoinEntity
 import com.marko.domain.entities.CoinId
@@ -34,6 +35,16 @@ interface CoinRepository<F> : CoinsRemoteSource<F>, CoinsCacheSource<F> {
 	 * @return [Kind] of [F], [CoinEntity] supplied from data sources
 	 */
 	fun fetchCoin(coinId: CoinId): Kind<F, CoinEntity> = defer(ctx = coroutineContext) {
-		fetchCoinDetails(coinId).handleErrorWith { querySingleCoin(coinId) }
+		bindingCatch {
+			val cachedCoin = querySingleCoin(coinId = coinId).bind()
+			if (cachedCoin.logo.isNotEmpty()) return@bindingCatch cachedCoin
+
+			val fetchedCoin = fetchCoinDetails(coinId = coinId).bind()
+
+			val coinDetails = cachedCoin.copy(logo = fetchedCoin.logo)
+			saveSingleCoin(coinDetails)
+
+			coinDetails
+		}
 	}
 }

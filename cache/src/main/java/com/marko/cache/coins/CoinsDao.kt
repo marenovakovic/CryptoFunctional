@@ -1,9 +1,6 @@
 package com.marko.cache.coins
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.marko.cache.entities.CoinCache
 import com.marko.domain.entities.CoinId
 
@@ -18,7 +15,7 @@ interface CoinsDao {
 	 *
 	 * @param coins [CoinCache] [List] to be inserted into the database
 	 */
-	@Insert
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertCoins(coins: List<CoinCache>)
 
 	/**
@@ -26,7 +23,7 @@ interface CoinsDao {
 	 *
 	 * @param coin [CoinCache] to be inserted into the database
 	 */
-	@Insert
+	@Insert(onConflict = OnConflictStrategy.REPLACE)
 	fun insertCoin(coin: CoinCache)
 
 	/**
