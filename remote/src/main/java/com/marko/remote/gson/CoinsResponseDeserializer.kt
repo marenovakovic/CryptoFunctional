@@ -22,12 +22,14 @@ object CoinsResponseDeserializer : JsonDeserializer<CoinsResponse> {
 				CoinRemote(
 					id = get("id").asInt,
 					name = get("name").asString,
+					logo = get("logo")?.asString ?: "",
 					symbol = get("symbol").asString,
 					price = get("quote").asJsonObject["USD"].asJsonObject["price"].asFloat,
-					priceInBTC = get("quote")?.asJsonObject?.get("BTC")?.asJsonObject?.get("price")?.asFloat ?: -1f,
+					priceInBTC = get("quote")?.asJsonObject?.get("BTC")?.asJsonObject?.get("price")?.asFloat
+						?: - 1f,
 					inExistenceSupply = get("total_supply").asLong,
 					circulatingSupply = get("circulating_supply").asLong,
-					maxSupply = get("max_supply")?.takeIf { isJsonNull }?.asLong ?: -1L,
+					maxSupply = get("max_supply")?.takeIf { isJsonNull }?.asLong ?: - 1L,
 					tradedIn24h = get("quote").asJsonObject["USD"].asJsonObject["volume_24h"].asLong
 				)
 			}

@@ -20,6 +20,11 @@ data class Coin(
 	val symbol: String,
 
 	/**
+	 * Logo image URL
+	 */
+	val logo: String,
+
+	/**
 	 * Crypto currency price in USD
 	 */
 	val price: Float,
@@ -45,7 +50,7 @@ data class Coin(
 	val maxSupply: Long,
 
 	/**
-	 * Cumber of crypto currencies exchanged in 24 hours
+	 * Number of crypto currencies exchanged in 24 hours
 	 */
 	val tradedIn24h: Long
 )

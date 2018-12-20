@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CryptoFunctional</string>
+
+    <string name="usd_price">%1$s USD</string>
+    <string name="btc_price">%1$s BTC</string>
+    <string name="max_supply">Max suply: %1$s</string>
+    <string name="in_existence">In existence: %1$s</string>
+    <string name="circulating">In use: %1$s</string>
+    <string name="traded_in_last_24h">Traded in last 24h: %1$s</string>
 </resources>

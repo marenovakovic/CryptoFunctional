@@ -1,5 +1,6 @@
 package com.marko.presentation.dispatchers
 
+import com.marko.domain.dispatchers.CoroutineDispatchers
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 

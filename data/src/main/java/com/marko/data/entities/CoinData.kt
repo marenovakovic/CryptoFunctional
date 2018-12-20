@@ -20,6 +20,11 @@ data class CoinData(
 	val symbol: String,
 
 	/**
+	 * Logo image URL
+	 */
+	val logo: String,
+
+	/**
 	 * Crypto currency price in USD
 	 */
 	val price: Float,

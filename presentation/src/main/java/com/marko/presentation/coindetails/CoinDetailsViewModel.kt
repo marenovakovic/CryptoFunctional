@@ -1,26 +1,25 @@
-package com.marko.presentation.coins
+package com.marko.presentation.coindetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import arrow.effects.ForDeferredK
 import com.marko.data.coins.CoinRepository
 import com.marko.domain.dispatchers.CoroutineDispatchers
+import com.marko.domain.entities.CoinId
 import com.marko.presentation.base.BaseViewModel
 import com.marko.presentation.entities.Coin
 import com.marko.presentation.event.Event
 import com.marko.presentation.extensions.executeWithLoading
 import com.marko.presentation.mappers.toPresentation
-import com.marko.usecases.FetchCoins
+import com.marko.usecases.FetchCoinDetails
 import javax.inject.Inject
 
 /**
- * [ViewModel] for fetching coin related content
+ * [ViewModel] class for fetching [Coin] details
  *
  * @param dispatchers [CoroutineDispatchers]
- *
- * @param coinRepository [CoinRepository]
  */
-class CoinsViewModel @Inject constructor(
+class CoinDetailsViewModel @Inject constructor(
 	dispatchers: CoroutineDispatchers,
 	private val coinRepository: CoinRepository<ForDeferredK>
 ) : BaseViewModel(dispatchers = dispatchers) {
@@ -33,11 +32,11 @@ class CoinsViewModel @Inject constructor(
 		get() = _loading
 
 	/**
-	 * [MutableLiveData] holding fetched [Coin] [List], exposed as [LiveData]
+	 * [MutableLiveData] holding fetched [Coin], exposed as [LiveData]
 	 */
-	private val _coins = MutableLiveData<List<Coin>>()
-	val coins: LiveData<List<Coin>>
-		get() = _coins
+	private val _coinDetails = MutableLiveData<Coin>()
+	val coinDetails: LiveData<Coin>
+		get() = _coinDetails
 
 	/**
 	 * [MutableLiveData] holding [Throwable] thrown during fetching, exposed as [LiveData]
@@ -48,13 +47,18 @@ class CoinsViewModel @Inject constructor(
 
 	/**
 	 * Start fetching flow
+	 *
+	 * @param coinId [CoinId] of [Coin] that should be fetched
 	 */
-	fun fetch() {
+	fun fetch(coinId: CoinId) {
 		executeWithLoading(
 			loading = _loading,
-			success = _coins,
+			success = _coinDetails,
 			error = _error,
-			deferred = FetchCoins(coinRepository = coinRepository).map { it.toPresentation() }
+			deferred = FetchCoinDetails(
+				coinRepository = coinRepository,
+				coinId = coinId
+			).map { it.toPresentation() }
 		)
 	}
 }

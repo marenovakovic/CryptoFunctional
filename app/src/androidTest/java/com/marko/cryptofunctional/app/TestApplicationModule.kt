@@ -2,12 +2,11 @@ package com.marko.cryptofunctional.app
 
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
-import com.marko.cryptofunctional.dispatchers.CoroutineDispatchers
 import com.marko.cryptofunctional.dispatchers.TestCoroutineDispatchersInstrumentation
+import com.marko.domain.dispatchers.CoroutineDispatchers
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 abstract class TestApplicationBindingModule {
