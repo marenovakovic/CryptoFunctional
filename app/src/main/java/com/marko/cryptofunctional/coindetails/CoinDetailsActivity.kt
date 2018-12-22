@@ -52,7 +52,8 @@ class CoinDetailsActivity : BaseActivity() {
 		coinDetailsMaxSupply.text = getString(R.string.max_supply, maxSupply.toString())
 		coinDetailsInExistance.text = getString(R.string.in_existence, inExistenceSupply.toString())
 		coinDetailsCirculating.text = getString(R.string.circulating, circulatingSupply.toString())
-		coinDetailsTradedInLast24h.text = getString(R.string.traded_in_last_24h, tradedIn24h.toString())
+		coinDetailsTradedInLast24h.text =
+				getString(R.string.traded_in_last_24h, tradedIn24h.toString())
 	}
 
 	private fun handleError(throwable: Throwable) = Timber.e(throwable)

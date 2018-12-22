@@ -28,7 +28,8 @@ interface CoinRepository<F> : CoinsRemoteSource<F>, CoinsCacheSource<F> {
 	}
 
 	/**
-	 * Defers executing of logic to mediate between [CoinsRemoteSource] and [CoinsCacheSource] for fetching of [CoinEntity] details
+	 * Defers executing of logic to combine [CoinsRemoteSource] and [CoinsCacheSource] for fetching of [CoinEntity] details
+	 * If cached coin had logo than return it, if not fetch coin from API, save it, combine and return
 	 *
 	 * @param coinId [CoinId] of [CoinEntity] for which details should be fetched
 	 *
@@ -42,7 +43,7 @@ interface CoinRepository<F> : CoinsRemoteSource<F>, CoinsCacheSource<F> {
 			val fetchedCoin = fetchCoinDetails(coinId = coinId).bind()
 
 			val coinDetails = cachedCoin.copy(logo = fetchedCoin.logo)
-			saveSingleCoin(coinDetails)
+			saveSingleCoin(coinDetails).bind()
 
 			coinDetails
 		}

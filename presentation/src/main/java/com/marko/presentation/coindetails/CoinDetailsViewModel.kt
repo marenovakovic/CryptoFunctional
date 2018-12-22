@@ -50,15 +50,13 @@ class CoinDetailsViewModel @Inject constructor(
 	 *
 	 * @param coinId [CoinId] of [Coin] that should be fetched
 	 */
-	fun fetch(coinId: CoinId) {
-		executeWithLoading(
-			loading = _loading,
-			success = _coinDetails,
-			error = _error,
-			deferred = FetchCoinDetails(
-				coinRepository = coinRepository,
-				coinId = coinId
-			).map { it.toPresentation() }
-		)
-	}
+	fun fetch(coinId: CoinId) = executeWithLoading(
+		loading = _loading,
+		success = _coinDetails,
+		error = _error,
+		deferred = FetchCoinDetails(
+			coinRepository = coinRepository,
+			coinId = coinId
+		).map { it.toPresentation() }
+	)
 }

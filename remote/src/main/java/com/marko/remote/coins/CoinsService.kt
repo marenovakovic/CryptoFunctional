@@ -16,7 +16,7 @@ import retrofit2.http.Query
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-private const val API_KEY = "api_key"
+private const val API_KEY = "_"
 
 /**
  * [Retrofit] service defining how to fetch [CoinsResponse]

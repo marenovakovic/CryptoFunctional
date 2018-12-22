@@ -49,12 +49,10 @@ class CoinsViewModel @Inject constructor(
 	/**
 	 * Start fetching flow
 	 */
-	fun fetch() {
-		executeWithLoading(
-			loading = _loading,
-			success = _coins,
-			error = _error,
-			deferred = FetchCoins(coinRepository = coinRepository).map { it.toPresentation() }
-		)
-	}
+	fun fetch() = executeWithLoading(
+		loading = _loading,
+		success = _coins,
+		error = _error,
+		deferred = FetchCoins(coinRepository = coinRepository).map { it.toPresentation() }
+	)
 }
